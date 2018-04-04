@@ -1,6 +1,7 @@
 ## Docker安装jira
 
 Step1: install mysql
+
 Step2: run jira
 
 
@@ -41,6 +42,8 @@ docker run -p 18080:8080 -dit --name jira_v1 docker.io/cptactionhank/atlassian-j
 
 ## References
 
-https://xuqiang.me/Docker-JIRA-7-3-8-%E7%A0%B4%E8%A7%A3%E9%83%A8%E7%BD%B2.html
-https://www.pmowner.com/2017/05/13/%E4%BD%BF%E7%94%A8docker%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjira%E4%BD%93%E9%AA%8C%E7%8E%AF%E5%A2%83/
-http://www.yfshare.vip/2017/05/09/%E9%83%A8%E7%BD%B2JIRA-7-2-2-for-Linux/
+[one blog](https://xuqiang.me/Docker-JIRA-7-3-8-%E7%A0%B4%E8%A7%A3%E9%83%A8%E7%BD%B2.html)
+
+[two site](https://www.pmowner.com/2017/05/13/%E4%BD%BF%E7%94%A8docker%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAjira%E4%BD%93%E9%AA%8C%E7%8E%AF%E5%A2%83/)
+
+[three](http://www.yfshare.vip/2017/05/09/%E9%83%A8%E7%BD%B2JIRA-7-2-2-for-Linux/)
