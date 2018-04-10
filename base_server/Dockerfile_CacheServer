@@ -1,0 +1,14 @@
+FROM centos:6
+LABEL author="arvon" \
+      email="arvon2014@gmail.com" \
+      version="5.5.5.p1"
+ENV CachePath /data/CachePath/
+ADD CacheServer /usr/local/CacheServer/
+RUN mkdir $CachePath -p
+VOLUME $CachePath
+EXPOSE 9000
+WORKDIR /usr/local/CacheServer/
+CMD ["sh", "RunLinux.sh", "--port", "9000", "--path", "$CachePath", "--nolegacy"]
+#
+#docker build -t cache-server:v5.5.5.p1 .
+#docker run -d -p 9000:9000 -v /home/CachePath:/data/CachePath --name cache-server cache-server:v5.5.5.p1
