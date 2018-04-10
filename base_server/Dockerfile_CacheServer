@@ -9,6 +9,6 @@ VOLUME $CachePath
 EXPOSE 9000
 WORKDIR /usr/local/CacheServer/
 CMD ["sh", "RunLinux.sh", "--port", "9000", "--path", "$CachePath", "--nolegacy"]
-#
+#Notes
 #docker build -t cache-server:v5.5.5.p1 .
 #docker run -d -p 9000:9000 -v /home/CachePath:/data/CachePath --name cache-server cache-server:v5.5.5.p1
