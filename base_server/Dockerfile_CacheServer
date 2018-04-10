@@ -8,7 +8,9 @@ RUN mkdir $CachePath -p
 VOLUME $CachePath
 EXPOSE 9000
 WORKDIR /usr/local/CacheServer/
-CMD ["sh", "RunLinux.sh", "--port", "9000", "--path", "$CachePath", "--nolegacy"]
+#CMD ["sh", "RunLinux.sh", "--port", "9000", "--path", "$CachePath", "--nolegacy"]
+ENTRYPOINT sh RunLinux.sh --port 9000 --path $CachePath --nolegacy
 #Notes
+#注意CMD使用exec时时不会进行变量替换的，暂时使用shell的方式
 #docker build -t cache-server:v5.5.5.p1 .
 #docker run -d -p 9000:9000 -v /home/CachePath:/data/CachePath --name cache-server cache-server:v5.5.5.p1
