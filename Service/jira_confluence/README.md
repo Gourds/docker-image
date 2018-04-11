@@ -1,6 +1,7 @@
 ### Update
 
->`2018-04-11 15:59:33` 添加Confluence部署，重写Dockerfile
+>`2018-04-11 15:59:33` 添加Confluence部署，重写Dockerfile 
+
 >`2018-04-0x` 记录Jira部署
 
 ### 部署Jira
