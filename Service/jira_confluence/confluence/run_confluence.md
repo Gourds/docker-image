@@ -1,5 +1,31 @@
 
+### Update
 
+>`2018-04-11 15:59:33`
+
+由于官方的Dockerfile存在很多问题，现在附上我自己改的Dockerfile，主要解决以下问题。
+
+- 1. JDK问题
+官方使用的基础镜像使用的是openJDK，但是Confluence又报错说平台不支持，要换成Oracle JDK
+
+- 2. 连接Mysql问题
+官方的对于PostSQL可以支持，但连接Mysql的话需要自己装对应连接mysql的JAR包，另外，web连接mysql时注意连接参数
+觉得jar包直接放进git不是很科学，就先不放了,贴一下[下载地址](https://dev.mysql.com/downloads/file/?id=476197)，目录结构如下
+```bash
+├── Dockerfile
+├── entrypoint.sh
+├── Fonts.zip
+├── java-mysql
+│   ├── mysql-connector-java-5.1.46-bin.jar
+│   └── mysql-connector-java-5.1.46.jar
+└── tmp
+    ├── bitbucket-pipelines.yml
+    └── hooks
+        └── post_push
+```
+
+- 3. 字体问题
+我添加了windows下的字体目录直接放到容器的字体目录下，另外还需要在Confluence中配置对应参数，我这里没有配置，原因是还没有解决PPT的中文编码问题，但是可以先把自己放入容器，就算手动配置也会方便很多
 
 ### Install confluence with docker
 
@@ -25,5 +51,5 @@ docker cp /tmp/mysql-connector-java-5.1.46/mysql-connector-java-5.1.46-bin.jar b
 # And may be you will find the error like 'Your database must use 'READ-COMMITTED' as the default isolation level'
 # There have three methods to solove this problem , But I think the following method is the most concise
 # Answer：https://confluence.atlassian.com/confkb/confluence-fails-to-start-and-throws-mysql-session-isolation-level-repeatable-read-is-no-longer-supported-error-241568536.html
-jdbc:mysql://10.10.1.7:3306/confluence?sessionVariables=tx_isolation='READ-COMMITTED'
+jdbc:mysql://10.10.1.7:3306/confluence?sessionVariables=tx_isolation='READ-COMMITTED'&useSSL=false
 ```
