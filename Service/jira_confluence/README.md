@@ -1,6 +1,6 @@
 ### Update
 
->`2018-04-11 15:59:33` 添加Confluence部署，重写Dockerfile 
+>`2018-04-11 15:59:33` 添加Confluence部署，重写Dockerfile
 
 >`2018-04-0x` 记录Jira部署
 
@@ -62,5 +62,5 @@ docker cp /tmp/mysql-connector-java-5.1.46/mysql-connector-java-5.1.46-bin.jar b
 # And may be you will find the error like 'Your database must use 'READ-COMMITTED' as the default isolation level'
 # There have three methods to solove this problem , But I think the following method is the most concise
 # Answer：https://confluence.atlassian.com/confkb/confluence-fails-to-start-and-throws-mysql-session-isolation-level-repeatable-read-is-no-longer-supported-error-241568536.html
-jdbc:mysql://10.10.1.7:3306/confluence?sessionVariables=tx_isolation='READ-COMMITTED'&useSSL=false
+jdbc:mysql://10.10.1.7:3306/confluence?sessionVariables=tx_isolation='READ-COMMITTED'&useSSL=false&useUnicode=true&characterEncoding=utf8
 ```
