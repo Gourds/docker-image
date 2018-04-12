@@ -23,11 +23,13 @@ ARG CONFLUENCE_VERSION=6.8.1
 ARG DOWNLOAD_URL=http://www.atlassian.com/software/confluence/downloads/binary/atlassian-confluence-${CONFLUENCE_VERSION}.tar.gz
 RUN curl -L --silent                  ${DOWNLOAD_URL} | tar -xz --strip-components=1 -C "$CONFLUENCE_INSTALL_DIR"
 
-ADD Fonts.zip  /usr/share/fonts/
+ADD chinese-win.tar.gz  /usr/share/fonts/
+#RUN fc-cache -fv
 #ADD atlassian-confluence-6.8.1.tar.gz $CONFLUENCE_INSTALL_DIR/
 
 RUN chown -R ${RUN_USER}:${RUN_GROUP} ${CONFLUENCE_INSTALL_DIR}/ \
     && sed -i -e 's/-Xms\([0-9]\+[kmg]\) -Xmx\([0-9]\+[kmg]\)/-Xms\${JVM_MINIMUM_MEMORY:=\1} -Xmx\${JVM_MAXIMUM_MEMORY:=\2} \${JVM_SUPPORT_RECOMMENDED_ARGS} -Dconfluence.home=\${CONFLUENCE_HOME}/g' ${CONFLUENCE_INSTALL_DIR}/bin/setenv.sh \
+#    && sed -i -e '/.*-Dconfluence.context.path=.*/a\CATALINA_OPTS="-Dconfluence.document.conversion.fontpath=/usr/share/fonts/Fonts/ ${CATALINA_OPTS}"' ${CONFLUENCE_INSTALL_DIR}/bin/setenv.sh \
     && sed -i -e 's/port="8090"/port="8090" secure="${catalinaConnectorSecure}" scheme="${catalinaConnectorScheme}" proxyName="${catalinaConnectorProxyName}" proxyPort="${catalinaConnectorProxyPort}"/' ${CONFLUENCE_INSTALL_DIR}/conf/server.xml
 
 COPY entrypoint.sh              /entrypoint.sh
