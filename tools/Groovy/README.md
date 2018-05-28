@@ -1,5 +1,7 @@
 Jenkins测试
 
+这个groovy镜像主要是为创建Jenkins任务时测试groovy脚本而制作的。比较简单，包含groovy、jdk、以及aws的awscli，以下内容没有实质帮助，是我的实验记录。
+
 ### 配置测试git
 
 ```
