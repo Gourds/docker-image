@@ -1,0 +1,22 @@
+postgresql:
+  image: sameersbn/postgresql:9.4-3
+  environment:
+    - DB_USER=bitbucket
+    - DB_PASS=3TEqhWobrzB
+    - DB_NAME=bitbucket_production
+  volumes:
+    - /srv/docker/bitbucket/postgresql:/var/lib/postgresql
+bitbucket:
+  image: atlassian/bitbucket-server:5.0
+  links:
+    - postgresql:postgresql
+  ports:
+    - "80:7990"
+    - "7999:7999"
+  environment:
+    - 'BITBUCKET_PROXY_NAME='
+    - 'BITBUCKET_PROXY_PORT='
+    - 'BITBUCKET_PROXY_SCHEME='
+    - 'BITBUCKET_DELAYED_START='
+  volumes:
+    - /srv/docker/bitbucket/app-data:/var/atlassian/application-data/bitbucket
