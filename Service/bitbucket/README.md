@@ -55,8 +55,12 @@ bitbucket:
 |版本支持|Bitbucket 4.8+|Bitbucket 4.0+ && Stash 2.12+|Bitbucket 4.0+ && Stash2.7+|
 |文档|[【DOC】](https://confluence.atlassian.com/bitbucketserver/using-bitbucket-zero-downtime-backup-829920023.html)|[【DOC】](https://confluence.atlassian.com/bitbucketserver/using-bitbucket-server-diy-backup-776640056.html)|[【DOC】](https://confluence.atlassian.com/bitbucketserver/using-the-bitbucket-server-backup-client-776640064.html)|
 
+### Maybe
 
-
+```bash
+psql -h hostname -p 5432 -U bitbucket bitbucket_production -W
+#进入psql 的bitbucket_production 库
+```
 
 
 
