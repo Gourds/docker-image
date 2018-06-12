@@ -48,7 +48,7 @@ chown -R daemon.daemon $BITBUCKET_S_HOME
 ```
 
 
-### 镜像
+### 制作镜像
 
 - 下载客户端包
 ``` bash
@@ -67,7 +67,7 @@ wget https://maven.atlassian.com/content/groups/public/com/atlassian/bitbucket/s
 docker build -t bitbucket-backup-restore:v1 .
 ```
 
-### 验证
+### 验证命令
 
 - 查看Postgresql数据库
 ```bash

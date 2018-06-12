@@ -4,7 +4,7 @@ date: 2018-06-09 12:38:00
 tags: [版本控制,Docker]
 ---
 
-前言：之前使用了Atlassian公司的Confluence和Jira，现在新项目考虑使用Bitbucket做代码仓库，这里记录一下调研实践过程。由于之前的服务是使用docker进行部署的，所以Bitbucket也决定使用docker的方式进行部署。
+**前言：**之前使用了Atlassian公司的Confluence和Jira，现在新项目考虑使用Bitbucket做代码仓库，这里记录一下调研实践过程。由于之前的服务是使用docker进行部署的，所以Bitbucket也决定使用docker的方式进行部署。
 
 除了下面的，docker设置连接Postgresql的时候需要由于是采用link的方式，所以可以在bitbucket容器中直接使用主机名也就是postgresql进行连接postgresql服务
 
@@ -55,12 +55,8 @@ bitbucket:
 |版本支持|Bitbucket 4.8+|Bitbucket 4.0+ && Stash 2.12+|Bitbucket 4.0+ && Stash2.7+|
 |文档|[【DOC】](https://confluence.atlassian.com/bitbucketserver/using-bitbucket-zero-downtime-backup-829920023.html)|[【DOC】](https://confluence.atlassian.com/bitbucketserver/using-bitbucket-server-diy-backup-776640056.html)|[【DOC】](https://confluence.atlassian.com/bitbucketserver/using-the-bitbucket-server-backup-client-776640064.html)|
 
-### Maybe
+我这里选择使用官方推荐的第三种方法进行备份还原，具体文档参照[【这里】](https://github.com/Gourds/docker-image/tree/master/Service/bitbucket/backup-restore)
 
-```bash
-psql -h hostname -p 5432 -U bitbucket bitbucket_production -W
-#进入psql 的bitbucket_production 库
-```
 
 
 
