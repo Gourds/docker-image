@@ -29,12 +29,15 @@ docker run  --rm -d --name bit1 -v /tmp/test-bak:/data  -e BITBUCKET_S_HOME=/var
 ```
 
 - 还原Bitbucket
-**注意：**由于还原操作需要指定要还原的备份文件，且需要其他条件（停止Bitbucket服务、还原目录为空），所以这里是提供执行环境，进入环境后手动进行还原操作,步骤如下
->Step1. 启动并进入还原容器
->Step2. 修改确认配置文件
->Step3. 进行还原
->Step4. 修改还原目录的权限
->Step5. 启动Bitbucket服务
+
+>**注意：**由于还原操作需要指定要还原的备份文件，且需要其他条件（停止Bitbucket服务、还原目录为空），所以这里是提供执行环境，进入环境后手动进行还原操作,步骤如下
+
+>- Step1. 启动并进入还原容器
+>- Step2. 修改确认配置文件
+>- Step3. 进行还原
+>- Step4. 修改还原目录的权限
+>- Step5. 启动Bitbucket服务
+
 
 ``` bash
 #Step1
