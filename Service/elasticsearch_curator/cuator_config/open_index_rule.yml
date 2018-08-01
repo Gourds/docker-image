@@ -1,0 +1,83 @@
+actions:
+  1:
+    action: open
+    description: "Close pay index"
+    options:
+      ignore_empty_list: True
+      timeout_override: 180
+      disable_action: True
+    filters:
+    - filtertype: pattern
+      kind: regex
+      value: '^(kbilogs-logics-pay-208|bilogs-logics-pay-208).*$'
+    - filtertype: age
+      source: creation_date
+      direction: older
+      unit: months
+      unit_count: 1
+  2:
+    action: open
+    description: "Close game index"
+    options:
+      ignore_empty_list: True
+      timeout_override: 180
+      disable_action: True
+    filters:
+    - filtertype: pattern
+      kind: regex
+      value: '^(kbilogs-logics-gamex-208|bilogs-logics-gamex-208).*$'
+    - filtertype: age
+      source: creation_date
+      direction: older
+      unit: days
+      unit_count: 30
+  3:
+    action: close
+    description: "Close multiplay index"
+    options:
+      delete_aliases: False
+      ignore_empty_list: True
+      timeout_override: 180
+      disable_action: False
+    filters:
+    - filtertype: pattern
+      kind: regex
+      value: '^(kbilogs-logics-multiplay-208).*$'
+    - filtertype: age
+      source: name
+      direction: older
+      unit: days
+      unit_count: 30
+  3:
+    action: open
+    description: "Close multiplay index"
+    options:
+      ignore_empty_list: True
+      timeout_override: 180
+      disable_action: False
+    filters:
+    - filtertype: pattern
+      kind: regex
+      value: '^(kbilogs-logics-multiplay-208).*$'
+    - filtertype: age
+      source: name
+      direction: older
+      timestring: '%Y.%m.%d'
+      unit: days
+      unit_count: 28
+  4:
+    action: open
+    description: "Close auth index"
+    options:
+      ignore_empty_list: True
+      timeout_override: 180
+      disable_action: True
+    filters:
+    - filtertype: pattern
+      kind: regex
+      value: '^(kbilogs-logics-multiplay-208).*$'
+    - filtertype: age
+      source: creation_date
+      direction: older
+      unit: days
+      unit_count: 7
