@@ -1,0 +1,48 @@
+#!/bin/bash
+#Date: 2018-08-02
+#Mail: arvon2014@gmail.com
+
+DOCKER_IMG='curator:v5.5.4'
+DOCKER_MOUNT_DIR='/data/ES-curator/curator-config/:/data/curator-config'
+CURATOR_MAIN_CONFIG='/data/curator-config/curator.yml'
+CURATOR_ACTION_CLOSE_CONFIG='/data/curator-config/close_index_rule.yml'
+CURATOR_ACTION_OPEN_CONFIG='/data/curator-config/open_index_rule.yml'
+CURATOR_ACTION_MERGE_CONFIG='/data/curator-config/merge_index_rule.yml'
+CURATOR_ACTION_DELETE_CONFIG='/data/curator-config/delete_index_rule.yml'
+
+function close(){
+docker run -d --rm -v ${DOCKER_MOUNT_DIR} ${DOCKER_IMG} --config ${CURATOR_MAIN_CONFIG} ${CURATOR_ACTION_CLOSE_CONFIG}
+}
+
+function open(){
+docker run -d --rm -v ${DOCKER_MOUNT_DIR} ${DOCKER_IMG} --config ${CURATOR_MAIN_CONFIG} ${CURATOR_ACTION_OPEN_CONFIG}
+}
+
+function merge(){
+docker run -d --rm -v ${DOCKER_MOUNT_DIR} ${DOCKER_IMG} --config ${CURATOR_MAIN_CONFIG} ${CURATOR_ACTION_MERGE_CONFIG}
+}
+
+function delete(){
+docker run -d --rm -v ${DOCKER_MOUNT_DIR} ${DOCKER_IMG} --config ${CURATOR_MAIN_CONFIG} ${CURATOR_ACTION_DELETE_CONFIG}
+}
+
+case "$1" in
+    close)
+    close
+    ;;
+    open)
+    echo "Edit ${CURATOR_ACTION_OPEN_CONFIG} then run this comand again"
+    open
+    ;;
+    merge)
+    merge
+    ;;
+    delete)
+    delete
+    ;;
+    cron)
+    delete && close && merge
+    ;;
+    *)
+    echo "Usage: $0 close|open|merge|delete|cron"
+esac
