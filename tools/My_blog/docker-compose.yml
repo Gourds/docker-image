@@ -1,0 +1,31 @@
+version: '2'
+services:
+  nginx:
+    image: nginx:1.15
+    container_name: gourds-nginx
+    networks:
+      - ngxnet
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /data/docker-app/blog-data/static/:/usr/share/nginx/html/static/:ro
+      - /data/docker-app/nginx-config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /data/docker-app/nginx-config/conf.d/:/etc/nginx/conf.d/:ro
+      - /data/docker-app/wiki-data/dokuwiki/:/usr/share/nginx/html/dokuwiki/:rw
+    links:
+      - php
+
+  php:
+    image: bitnami/php-fpm:7.2
+    container_name: nginx-php
+    networks:
+      - ngxnet
+    ports:
+      - "9000:9000"
+    volumes:
+      - /data/docker-app/wiki-data/dokuwiki/:/usr/share/nginx/html/dokuwiki/:rw
+
+networks:
+  ngxnet:
+    driver: bridge
