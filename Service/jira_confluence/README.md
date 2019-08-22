@@ -1,6 +1,6 @@
 ### Update
 
->`2018-04-13 13:48` 整理归纳 
+>`2018-04-13 13:48` 整理归纳
 
 >`2018-04-11 15:59` 添加Confluence部署，重写Dockerfile
 
@@ -215,6 +215,7 @@ docker logs -f confluence
 容器启动后跟Jira一样检查端口和防火墙配置,确认没问题后，在浏览器访问`http://host_address:8090`跟着提示安装，**注意**在web界面连接数据库的时候需要选择`String`模式，然后按照如下参数填写,如果没来得及修改，可以在`/data/confluence/confluence.cfg.xml`这个配置里修改重启。另外如需链接Jira在最后根据提示选择就可以了，别的就没啥了。
 ```bash
 jdbc:mysql://host_address:3306/confluence?sessionVariables=tx_isolation='READ-COMMITTED'&useSSL=false&useUnicode=true&characterEncoding=utf8
+# IF need jdbc:mysql://localhost:3306/Peoples?autoReconnect=true&useSSL=false
 # Answer：https://confluence.atlassian.com/confkb/confluence-fails-to-start-and-throws-mysql-session-isolation-level-repeatable-read-is-no-longer-supported-error-241568536.html
 ```
 
