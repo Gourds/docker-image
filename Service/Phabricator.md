@@ -24,7 +24,7 @@ services:
      - MYSQL_USER=root
      - MYSQL_PASS=phabricator
      - PHABRICATOR_REPOSITORY_PATH=/repos
-     - PHABRICATOR_HOST=wiki2.taiyouxi.net
+     - PHABRICATOR_HOST=pha.gourds.site
      - PHABRICATOR_HOST_KEYS_PATH=/hostkeys/persisted
     image: redpointgames/phabricator
   mysql:
