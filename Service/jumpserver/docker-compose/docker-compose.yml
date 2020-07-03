@@ -1,0 +1,136 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7.23
+    restart: always
+    container_name: jms_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/custom.cnf
+    networks:
+      - jumpserver
+  redis:
+    image: redis:3
+    container_name: jms_redis
+    command: redis-server --requirepass $REDIS_PASSWORD
+    restart: always
+    volumes:
+      - redis-data:/data
+    networks:
+      - jumpserver
+  core:
+    image: jumpserver/jms_core:${Version}
+    container_name: jms_core
+    restart: always
+    tty: true
+    environment:
+      SECRET_KEY: $SECRET_KEY
+      BOOTSTRAP_TOKEN: $BOOTSTRAP_TOKEN
+      DB_HOST: $DB_HOST
+      DB_PORT: $DB_PORT
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
+      REDIS_HOST: $REDIS_HOST
+      REDIS_PORT: $REDIS_PORT
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - core-data:/opt/jumpserver/data
+    networks:
+      - jumpserver
+
+  koko:
+    image: jumpserver/jms_koko:${Version}
+    container_name: jms_koko
+    restart: always
+    tty: true
+    environment:
+      CORE_HOST: http://core:8080
+      BOOTSTRAP_TOKEN: $BOOTSTRAP_TOKEN
+    depends_on:
+      - core
+    volumes:
+      - koko-keys:/opt/koko/data/keys
+    ports:
+      - 2222:2222
+    networks:
+      - jumpserver
+
+  guacamole:
+    image: jumpserver/jms_guacamole:${Version}
+    container_name: jms_guacamole
+    restart: always
+    tty: true
+    environment:
+      JUMPSERVER_SERVER: http://core:8080
+      BOOTSTRAP_TOKEN: $BOOTSTRAP_TOKEN
+      JUMPSERVER_KEY_DIR: /config/guacamole/keys
+      GUACAMOLE_HOME: /config/guacamole
+      GUACAMOLE_LOG_LEVEL: ERROR
+      JUMPSERVER_ENABLE_DRIVE: 'true'
+    depends_on:
+      - core
+    volumes:
+      - guacamole-keys:/config/guacamole/keys
+    networks:
+      - jumpserver
+
+  nginx:
+    image: jumpserver/jms_nginx:${Version}
+    container_name: jms_nginx
+    restart: always
+    tty: true
+    depends_on:
+      - core
+      - koko
+      - guacamole
+    volumes:
+      - core-data:/opt/jumpserver/data
+    ports:
+      - 80:80
+    networks:
+      - jumpserver
+
+volumes:
+  mysql-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/docker/jumpserver-data/mysql-data
+  redis-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/docker/jumpserver-data/redis-data
+  core-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/docker/jumpserver-data/core-data
+  koko-keys:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/docker/jumpserver-data/koko-keys
+  guacamole-keys:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/docker/jumpserver-data/guacamole-keys
+
+networks:
+  jumpserver:
