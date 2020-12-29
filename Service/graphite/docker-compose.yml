@@ -1,0 +1,85 @@
+version: '3'
+
+services:
+  graphite:
+    image: graphiteapp/graphite-statsd:1.1.7-9
+    restart: always
+    container_name: graphite
+    environment:
+      GRAPHITE_WSGI_PROCESSES: 4
+      GRAPHITE_WSGI_THREADS: 1
+      GRAPHITE_WSGI_REQUEST_TIMEOUT: 65
+      GRAPHITE_WSGI_MAX_REQUESTS: 1000
+      GRAPHITE_TIME_ZONE: "UTC"
+      COLLECTD: 1
+      RELAY: 1
+    volumes:
+      - graphite-config:/opt/graphite/conf
+      - graphite-storage:/opt/graphite/storage
+      - graphite-custom:/opt/graphite/webapp/graphite/functions/custom
+      - graphite-nginx-config:/etc/nginx
+      - graphite-stastsd-config:/opt/statsd/config
+      - graphite-logrotate-config:/etc/logrotate.d
+      - graphite-log:/var/log
+      - graphite-redis:/var/lib/redis
+    ports:
+      - "80:80"
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8125:8125/udp"
+      - "8126:8126"
+    networks:
+      - graphite-monitor
+
+volumes:
+  graphite-config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/graphite/graphite-config
+  graphite-storage:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/graphite/graphite-storage
+  graphite-custom:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/graphite/graphite-custom
+  graphite-nginx-config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/graphite/graphite-nginx-config
+  graphite-stastsd-config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/graphite/graphite-stastsd-config
+  graphite-logrotate-config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/graphite/graphite-logrotate-config
+  graphite-log:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/graphite/graphite-log
+  graphite-redis:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/graphite/graphite-redis
+
+networks:
+   graphite-monitor:
