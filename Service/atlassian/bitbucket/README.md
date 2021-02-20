@@ -13,30 +13,21 @@ tags: [版本控制,Docker]
 ### 安装
 
 使用Docker的方式，由于Bitbucket基于性能的考虑不推荐使用mysql([参考](https://confluence.atlassian.com/bitbucketserver/connecting-bitbucket-server-to-mysql-776640382.html))，所以最后根据推荐决定使用PostgreSQL，以下是编写的docker-compose,可以在[【Github】](https://github.com/Gourds/docker-image/tree/master/Service/bitbucket)进行查看和建议。
-```xml
-postgresql:
-  image: sameersbn/postgresql:9.4-3
-  environment:
-    - DB_USER=YourUserName
-    - DB_PASS=YourPassword
-    - DB_NAME=YourDatabaseName
-  volumes:
-    - /srv/docker/bitbucket/postgresql:/var/lib/postgresql
-bitbucket:
-  image: atlassian/bitbucket-server:5.0
-  links:
-    - postgresql:postgresql
-  ports:
-    - "80:7990"
-    - "7999:7999"
-  environment:
-    - 'BITBUCKET_PROXY_NAME='
-    - 'BITBUCKET_PROXY_PORT='
-    - 'BITBUCKET_PROXY_SCHEME='
-    - 'BITBUCKET_DELAYED_START='
-  volumes:
-    - /srv/docker/bitbucket/app-data:/var/atlassian/application-data/bitbucket
+
+>2021-02-20 补充
+*破解*
+需要先打镜像再更改docker-compose中的镜像为新build的镜像重新启动即可
+
+```sh
+#下载解压crack包
+wget https://gitee.com/pengzhile/atlassian-agent/attach_files/283101/download/atlassian-agent-v1.2.3.tar.gz
+tar xvf atlassian-agent-v1.2.3.tar.gz
+#打镜像
+docker build  -t bitbucket:v7.9.1_crack .
+#生成lisense
+java -jar atlassian-agent.jar -p bitbucket -m aaa@bbb.com -n my_name -o https://crack.io -s BWQB-T57C-UJTD-HHHH
 ```
+
 
 
 ### 备份及还原

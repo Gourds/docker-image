@@ -1,0 +1,25 @@
+version: '2'
+services:
+    mysql:
+      container_name: mysql_jira
+      image: mysql:5.7.23
+      restart : always
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+      volumes:
+        - ./mysql:/var/lib/mysql
+        - ./conf:/etc/mysql/mysql.conf.d
+        - ./init:/docker-entrypoint-initdb.d
+    jira:
+      container_name: jira
+      image: cptactionhank/atlassian-jira-software:7.8.2
+      #image: jira:v7.8.2_crack
+      restart : always
+      depends_on:
+        - mysql
+      links:
+        - mysql
+      ports:
+        - "8080:8080"
+      volumes:
+        - "/home/docker/jira/jira:/var/atlassian/jira"

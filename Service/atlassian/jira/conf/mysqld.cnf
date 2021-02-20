@@ -1,0 +1,10 @@
+[mysqld]
+default-storage-engine=INNODB
+character-set-server=utf8
+innodb_log_file_size=2G
+max_allowed_packet=1024M
+#transaction-isolation=READ-COMMITTED
+[client]
+default-character-set=utf8
+[mysql]
+default-character-set=utf8

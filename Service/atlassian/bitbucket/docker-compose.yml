@@ -1,0 +1,33 @@
+version: '2'
+services:
+    postgresql:
+      container_name: bitbucket_postgresql
+      image: sameersbn/postgresql:latest
+      restart : always
+      environment:
+        - DB_USER=bitbucket
+        - DB_PASS=bitpass
+        - DB_NAME=bitbucket
+      volumes:
+        - /home/docker/bitbucket/postgresql:/var/lib/postgresql
+    bitbucket:
+      container_name: bitbucket
+      image: atlassian/bitbucket-server:7.9.1
+      #image: bitbucket:v7.9.1_crack
+      restart : always
+      depends_on:
+        - postgresql
+      links:
+        - postgresql
+      ports:
+        - "8808:7990"
+        - "2222:7999"
+      environment:
+        - 'BITBUCKET_PROXY_NAME='
+        - 'BITBUCKET_PROXY_PORT='
+        - 'BITBUCKET_PROXY_SCHEME='
+        - 'BITBUCKET_DELAYED_START='
+        - 'JVM_MINIMUM_MEMORY='
+        - 'JVM_MAXIMUM_MEMORY='
+      volumes:
+        - /home/docker/bitbucket/app-data:/var/atlassian/application-data/bitbucket

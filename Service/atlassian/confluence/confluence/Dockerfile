@@ -1,8 +1,6 @@
 FROM anapsix/alpine-java:8_jdk
-LABEL "Author":"arvon2014@gmail.com" \
-      "Date":"2018-04-11"
-ENV RUN_USER  daemon
-ENV RUN_GROUP daemon
+LABEL "Author":"arvon2014@gmail.com" \      "Date":"2018-04-11"
+ENV RUN_USER  daemonENV RUN_GROUP daemon
 ENV CONFLUENCE_HOME /var/atlassian/application-data/confluence
 ENV CONFLUENCE_INSTALL_DIR   /opt/atlassian/confluence
 
@@ -35,8 +33,11 @@ RUN chown -R ${RUN_USER}:${RUN_GROUP} ${CONFLUENCE_INSTALL_DIR}/ \
 COPY entrypoint.sh              /entrypoint.sh
 COPY java-mysql/mysql-connector-java-5.1.46.jar /opt/atlassian/confluence/confluence/WEB-INF/lib/mysql-connector-java-5.1.46.jar
 COPY java-mysql/mysql-connector-java-5.1.46-bin.jar /opt/atlassian/confluence/confluence/WEB-INF/lib/mysql-connector-java-5.1.46-bin.jar
+#COPY "atlassian-agent.jar" /opt/atlassian/confluence/
 #
 RUN chown -R ${RUN_USER}:${RUN_GROUP} ${CONFLUENCE_INSTALL_DIR}/
 #
 CMD ["/entrypoint.sh", "-fg"]
 ENTRYPOINT ["/sbin/tini", "--"]
+#
+#CMD tail -f /entrypoint.sh
